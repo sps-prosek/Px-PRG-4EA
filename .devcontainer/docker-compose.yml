@@ -1,0 +1,10 @@
+services:
+  pico-sdk-dev-env:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pico-sdk-dev-container
+    volumes:
+      - ../:/workspace:cached
+    stdin_open: true
+    tty: true

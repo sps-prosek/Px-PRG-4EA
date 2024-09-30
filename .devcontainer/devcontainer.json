@@ -1,0 +1,17 @@
+{
+  "name": "pico-sdk",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "pico-sdk-dev-env",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscode-icons-team.vscode-icons",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools-extension-pack"
+      ]
+    }
+  },
+  "remoteUser": "root",
+  "shutdownAction": "stopCompose"
+}

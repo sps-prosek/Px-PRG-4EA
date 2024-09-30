@@ -11,6 +11,7 @@ Repository with projects written for RPi pico in Pico C/C++ sdk.
 ### Prerequisites
 
 - Docker
+- Git
 - Visual Studio Code
   - [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
 

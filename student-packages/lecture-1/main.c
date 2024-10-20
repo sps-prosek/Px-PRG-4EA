@@ -1,7 +1,7 @@
 // Pico SDK libraries
 #include "pico/stdlib.h"
 
-#define LED_PIN 25
+#define LED_PIN 6
 #define BLINK_DELAY_MS 500
 
 int main()

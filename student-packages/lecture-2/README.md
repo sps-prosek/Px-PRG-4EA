@@ -1,4 +1,4 @@
-# Lecture 1
+# Lecture 2
 
 Digital inputs with Rpi pico and C/C++ SDK.
 

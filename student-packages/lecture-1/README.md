@@ -42,46 +42,10 @@ Using the pico-sdk documentation, online resources, and pico-sdk examples, edit 
 
 ## Building the Project
 
-1. Open terminal.
+Refer to the `README.md` file located in the root of this repository for detailed build instructions.
 
-2. Navigate to this folder:
-
-   ```sh
-   cd student-packages/lecture-1/
-   ```
-
-3. Create a build directory and navigate into it:
-
-   ```sh
-   mkdir build
-   cd build
-   ```
-
-4. Configure the project with CMake:
-
-   ```sh
-   cmake ..
-   ```
-
-5. Build the project (call this to rebuild the project):
-   ```sh
-   cmake --build .
-   ```
 ## Flashing the Firmware
 
 1. Connect the RP2040 board to your computer.
 2. Press and hold the BOOTSEL button while plugging the board into USB.
 3. Copy the generated `.uf2` file from the `build` directory to the RP2040 USB mass storage device.
-
-### Flashing the Firmware with Picotool
-
-1. Connect the RP2040 board to your computer.
-2. Ensure the board is in BOOTSEL mode by pressing and holding the BOOTSEL button while plugging the board into USB.
-3. Install `picotool` if you haven't already. Follow the instructions [here](https://github.com/raspberrypi/picotool).
-4. Use `picotool` to load the firmware:
-
-   ```sh
-   picotool load -f lec1.uf2
-   ```
-
-5. Reset the board to start running the new firmware.

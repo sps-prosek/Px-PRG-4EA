@@ -1,10 +1,14 @@
-# Repository for study materials for lecture Px (PRG) 4EA
+# Repository for Study Materials for Programming Course Px (PRG) 4EA
 
-Repository with projects written for RPi pico in Pico C/C++ sdk.
+This repository contains projects written for the RPi Pico using the Pico C/C++ SDK.
 
 ## Project Structure
 
-- `.devcointainer/`: Folder with dev container source files (docker files)
+- `.devcontainer/`: Folder with dev container source files (docker files)
+- `pico-examples/`: Folder with pico-sdk examples
+- `presentations/`: Folder with presentations used in lectures
+- `student-packages/`: Folder with base materials for assigments
+- `teacher-packages/`: Folder with finished assigments
 
 ## Getting Started
 
@@ -13,9 +17,11 @@ Repository with projects written for RPi pico in Pico C/C++ sdk.
 - Docker
 - Git
 - Visual Studio Code
-  - [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
+  - [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension (optional for building through docker)
+  - [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) extension
+  - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension
 
-### Clone this repo and open it in dev container
+### Clone this repo and open it in VS Code (optional dev environment)
 
 1. Clone this repository:
 
@@ -25,37 +31,37 @@ Repository with projects written for RPi pico in Pico C/C++ sdk.
 
 2. Open the repository folder in VS code.
 
-3. Reopen the repository folder inside of dev container. VS code will ask you or you can open command pallet (ctrl + shift + P) and find command `Dev Containers: Reopen in container`.
+3. (only for docker users) Reopen the repository folder inside the dev container. VS code will ask you or you can open command pallet (ctrl + shift + P) and find command `Dev Containers: Reopen in container`.
 
-### Building the Project
+### Building the Project with CMake extension
 
-1. Open terminal.
+1. After opening this folder in VS Code (Pico VS Code for school computers) choose the CMakeLists.txt file located in the root of this repository when asked so.
 
-2. Navigate to project folder that you want to build:
+2. Build the project with build button on the bottom left corner of the VS Code
 
-   ```sh
-   cd <FOLDER NAME>
-   ```
+### Building the Project manually
 
-3. Create a build directory and navigate into it:
+1. Open terminal in this folder.
+
+2. Create a build directory and navigate into it:
 
    ```sh
    mkdir build
    cd build
    ```
 
-4. Configure the project with CMake:
+3. Configure the project with CMake:
 
    ```sh
    cmake ..
    ```
 
-5. Build the project:
+4. Build the project:
    ```sh
-   make
+   cmake --build .
    ```
 
-### Flashing the Firmware
+### Flashing the Firmware to the RP2040 Board
 
 1. Connect the RP2040 board to your computer.
 2. Press and hold the BOOTSEL button while plugging the board into USB.

@@ -167,7 +167,7 @@ void display_character(char c)
     // 2. Convert lowercase letters to uppercase
     // 3. Verify character is a valid letter (A-Z)
     // 4. Get morse code pattern from MORSE_CODE array
-    char *pattern = MORSE_CODE[c - 'A'];
+    const char *pattern = MORSE_CODE[c - 'A'];
     printf("%s ", pattern); // Sample code to print morse code pattern
     // 5. Display pattern using display_dot and display_dash
     // 6. Add appropriate letter space after each character

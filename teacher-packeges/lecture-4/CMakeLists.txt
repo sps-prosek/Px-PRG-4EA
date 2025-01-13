@@ -48,6 +48,7 @@ pico_enable_stdio_usb(lecture-4 1)
 target_link_libraries(lecture-4
         pico_stdlib
         hardware_pwm
+        hardware_adc
         )
 
 # Add the standard include files to the build

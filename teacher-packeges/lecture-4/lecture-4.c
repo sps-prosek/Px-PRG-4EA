@@ -1,72 +1,74 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include "pico/stdlib.h"
-#include "hardware/gpio.h"
+#include "hardware/adc.h"
 #include "hardware/pwm.h"
+#include "hardware/gpio.h"
 
-#define IN1 22
-#define IN2 21
-#define ENA 20
+// Configuration
+#define ADC_PIN 26      // Using ADC0 (GPIO26)
+#define LED_PIN 16      // PWM-capable GPIO pin for LED
+#define ADC_NUM 0       // ADC0 input number
+#define SAMPLE_COUNT 10 // Number of samples to average
 
-#define MAX_LEVEL 100
-#define CLK_DIV 25.0f
-
-void set_motor_speed(int speed)
+// Function to map values from one range to another
+uint16_t map_value(uint16_t value, uint16_t in_min, uint16_t in_max,
+                   uint16_t out_min, uint16_t out_max)
 {
-    pwm_set_gpio_level(ENA, speed);
-    if (speed > 0)
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+// Function to get average ADC reading
+uint16_t get_averaged_adc()
+{
+    uint32_t sum = 0;
+
+    // Take multiple readings and sum them
+    for (int i = 0; i < SAMPLE_COUNT; i++)
     {
-        gpio_put(IN1, 1);
-        gpio_put(IN2, 0);
+        sum += adc_read();
+        sleep_ms(1); // Small delay between readings
     }
-    else if (speed < 0)
-    {
-        gpio_put(IN1, 0);
-        gpio_put(IN2, 1);
-    }
-    else
-    {
-        gpio_put(IN1, 0);
-        gpio_put(IN2, 0);
-    }
+
+    // Return average
+    return sum / SAMPLE_COUNT;
 }
 
 int main()
 {
-    // Initialize all standard I/O
+    // Initialize stdio
     stdio_init_all();
-    sleep_ms(1000);
-    printf("Starting...\n");
 
-    // Initialize pwm pin for LED
-    gpio_init(ENA);
-    gpio_set_function(ENA, GPIO_FUNC_PWM);
+    // Initialize ADC
+    adc_init();
+    adc_gpio_init(ADC_PIN);
+    adc_select_input(ADC_NUM);
 
-    uint sliceNum = pwm_gpio_to_slice_num(ENA);
+    // Initialize PWM
+    gpio_set_function(LED_PIN, GPIO_FUNC_PWM);
+    uint slice_num = pwm_gpio_to_slice_num(LED_PIN);
+
+    // Set PWM configuration
     pwm_config config = pwm_get_default_config();
-    pwm_config_set_clkdiv(&config, CLK_DIV);
-    pwm_config_set_wrap(&config, MAX_LEVEL);
-    pwm_init(sliceNum, &config, true);
+    pwm_config_set_wrap(&config, 65535); // Set wrap value to maximum (16-bit)
+    pwm_init(slice_num, &config, true);
 
-    // Initialize motor pins
-    gpio_init(IN1);
-    gpio_set_dir(IN1, GPIO_OUT);
-
-    gpio_init(IN2);
-    gpio_set_dir(IN2, GPIO_OUT);
-
-    int level = 0;
-    bool up = true;
-
-    while (true)
+    while (1)
     {
-        printf("Speed: %d\n", level);
-        set_motor_speed(level);
-        level += up ? 1 : -1;
-        if (level == MAX_LEVEL)
-            up = false;
-        else if (level == -MAX_LEVEL)
-            up = true;
-        sleep_ms(50);
+        // Get averaged ADC reading
+        uint16_t adc_value = get_averaged_adc();
+
+        // Map ADC value (0-4095) to PWM range (0-65535)
+        uint16_t target_pwm = map_value(adc_value, 0, 4095, 0, 65535);
+
+        // Set PWM duty cycle
+        pwm_set_chan_level(slice_num, PWM_CHAN_A, target_pwm);
+
+        // Print values for debugging (optional)
+        printf("ADC: %d, PWM: %d\n", adc_value, target_pwm);
+
+        // Small delay to prevent overwhelming the system
+        sleep_ms(10);
     }
+
+    return 0;
 }

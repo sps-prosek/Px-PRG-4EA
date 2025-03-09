@@ -18,7 +18,7 @@ uint32_t millis()
  * @brief Get the current time in microseconds.
  * @return The current time in microseconds.
  */
-uint32_t micros()
+uint64_t micros()
 {
     return to_us_since_boot(get_absolute_time());
 }

@@ -140,4 +140,7 @@ Temporary Items
 .history
 .ionide
 
+hidden
+
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,c,cmake,macos
